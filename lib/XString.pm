@@ -16,6 +16,12 @@ BEGIN {
 
 =encoding utf-8
 
+=begin markdown
+
+[![](https://github.com/atoomic/XString/workflows/linux/badge.svg)](https://github.com/atoomic/XString/actions) [![](https://github.com/atoomic/XString/workflows/macos/badge.svg)](https://github.com/atoomic/XString/actions) [![](https://github.com/atoomic/XString/workflows/windows/badge.svg)](https://github.com/atoomic/XString/actions)
+
+=end markdown
+
 =head1 SYNOPSIS
 
 # EXAMPLE: examples/synopsis.pl
