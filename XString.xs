@@ -13,6 +13,7 @@
 #include <perl.h>
 #include <XSUB.h>
 #include <embed.h>
+#include <string.h>
 
 /* stolen from B::cstring */
 static SV *
