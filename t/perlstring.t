@@ -2,10 +2,10 @@
 
 use warnings;
 use strict;
+
 BEGIN  {
     eval { require threads; threads->import; }
 }
-use Test::More;
 
 use Test::More;
 
