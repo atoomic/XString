@@ -4,7 +4,7 @@ XString - Isolated String helpers from B
 
 # VERSION
 
-version 0.003
+version 0.004
 
 # SYNOPSIS
 
