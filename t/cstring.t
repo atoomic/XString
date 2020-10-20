@@ -30,14 +30,14 @@ my @strings = (
 );
 
 {
-    note "testing cstring";
+    #note "testing cstring";
     foreach my $str ( @strings ) {
         is B::cstring( $str ), XString::cstring( $str );
     }
 }
 
 {
-    note "testing perlstring";
+    #note "testing perlstring";
     foreach my $str ( @strings ) {
         is B::perlstring( $str ), XString::perlstring( $str );
     }    
