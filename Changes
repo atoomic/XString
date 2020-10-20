@@ -2,6 +2,8 @@ Revision history for XString
 
 {{$NEXT}}
 
+0.004     2020-10-20 10:56:52-06:00 America/Denver
+
 Remove unneeded module deps.
 
 0.003     2020-10-20 09:30:01-06:00 America/Denver
