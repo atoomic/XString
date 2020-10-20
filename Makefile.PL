@@ -21,9 +21,6 @@ my %WriteMakefileArgs = (
     "ExtUtils::MakeMaker" => 0,
     "File::Spec" => 0,
     "File::Temp" => 0,
-    "Test2::Bundle::Extended" => 0,
-    "Test2::Plugin::NoWarnings" => 0,
-    "Test2::Tools::Explain" => 0,
     "Test::More" => 0
   },
   "VERSION" => "0.003",
@@ -37,9 +34,6 @@ my %FallbackPrereqs = (
   "ExtUtils::MakeMaker" => 0,
   "File::Spec" => 0,
   "File::Temp" => 0,
-  "Test2::Bundle::Extended" => 0,
-  "Test2::Plugin::NoWarnings" => 0,
-  "Test2::Tools::Explain" => 0,
   "Test::More" => 0
 );
 
