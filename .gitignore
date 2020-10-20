@@ -14,3 +14,6 @@ MANIFEST.bak
 XString-*
 .build
 .DS_Store
+/XString.bs
+/XString.c
+/XString.o
