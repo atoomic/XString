@@ -2,6 +2,8 @@ Revision history for XString
 
 {{$NEXT}}
 
+Fix cstring for Perl 5.32
+
 0.002     2019-08-13 11:44:34-06:00 America/Denver
 
 Update git repo & bug tracker URLs
