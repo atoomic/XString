@@ -3,6 +3,7 @@
 
 on "test" => sub {
     requires "File::Temp"                => "0";
+    requires "Test::More"                => "0.87";
 };
 
 # on 'develop' => sub {
