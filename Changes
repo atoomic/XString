@@ -2,6 +2,8 @@ Revision history for XString
 
 {{$NEXT}}
 
+0.005     2020-10-20 11:56:46-06:00 America/Denver
+
 Add compatibility with Perl 5.8
 
 0.004     2020-10-20 10:56:52-06:00 America/Denver
