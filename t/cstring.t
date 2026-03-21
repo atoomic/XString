@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!./perl
 
 # Copyright (c) 2018, cPanel, LLC.
 # All rights reserved.
@@ -7,8 +7,8 @@
 # This is free software; you can redistribute it and/or modify it under the
 # same terms as Perl itself. See L<perlartistic>.
 
-use strict;
 use warnings;
+use strict;
 
 use Test::More;
 
@@ -32,14 +32,14 @@ my @strings = (
 {
     #note "testing cstring";
     foreach my $str ( @strings ) {
-        is XString::cstring( $str ), B::cstring( $str );
+        is XString::cstring( $str ), B::cstring( $str ), "cstring: " . B::cstring( $str );
     }
 }
 
 {
     #note "testing perlstring";
     foreach my $str ( @strings ) {
-        is XString::perlstring( $str ), B::perlstring( $str );
+        is XString::perlstring( $str ), B::perlstring( $str ), "perlstring: " . B::perlstring( $str );
     }
 }
 
