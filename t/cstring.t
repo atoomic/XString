@@ -32,14 +32,14 @@ my @strings = (
 {
     #note "testing cstring";
     foreach my $str ( @strings ) {
-        is B::cstring( $str ), XString::cstring( $str );
+        is XString::cstring( $str ), B::cstring( $str );
     }
 }
 
 {
     #note "testing perlstring";
     foreach my $str ( @strings ) {
-        is B::perlstring( $str ), XString::perlstring( $str );
+        is XString::perlstring( $str ), B::perlstring( $str );
     }
 }
 
