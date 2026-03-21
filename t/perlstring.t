@@ -17,7 +17,7 @@ for my $do_utf8 (""," utf8") {
     my @bad;
     for my $cp ( 0 .. $max ) {
         my $char= chr($cp);
-        utf8::upgrade($char);
+        utf8::upgrade($char) if $do_utf8;
         my $escaped= XString::perlstring($char);
         my $evalled= eval $escaped;
         push @bad, [ $cp, $evalled, $char, $escaped ] if $evalled ne $char;
