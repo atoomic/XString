@@ -43,6 +43,12 @@ my @strings = (
     }
 }
 
+# Edge cases: undef and empty string
+{
+    is XString::cstring(undef), B::cstring(undef), "cstring: undef returns 0";
+    is XString::cstring(""),    B::cstring(""),    "cstring: empty string returns \"\"";
+}
+
 # UTF-8 tests for cstring()
 # cstring() uses the byte-by-byte fallback path even for UTF-8-flagged strings
 # (perlstyle=false skips the sv_uni_display branch). Verify XString matches B
