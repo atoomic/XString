@@ -55,6 +55,50 @@ for my $do_utf8 (""," utf8") {
     }
 }
 
+# Edge cases: undef and empty string
+{
+    is XString::perlstring(undef), B::perlstring(undef), "perlstring: undef returns 0";
+    is XString::perlstring(""),    B::perlstring(""),    "perlstring: empty string returns \"\"";
+}
+
+# Multi-character string comparison against B::perlstring
+{
+    my @strings = (
+        q[OneWord],
+        q[with space],
+        q[using-dash],
+        q['some"quotes],
+        q['abcd'],
+        q["abcd"],
+        qq[new\nlines\n],
+        qq[end\0character],
+        qq[beep\007],
+        qq[\t\r\n mixed whitespace],
+        qq[\a\b\f special controls],
+    );
+    foreach my $str (@strings) {
+        is XString::perlstring($str), B::perlstring($str),
+            "perlstring string: " . B::perlstring($str);
+    }
+}
+
+# Multi-character UTF-8 strings
+{
+    my @utf8_strings = (
+        "hello \x{263A} world",           # ASCII + smiley
+        "\x{100}\x{101}\x{102}",          # consecutive Latin Extended-A
+        "caf\x{e9}",                       # cafe with e-acute
+        "\x{0410}\x{0411}\x{0412}",       # Cyrillic
+        "abc\x{0}def\x{263A}",            # mixed with null byte
+        "\x{feff}BOM",                     # BOM + ASCII
+    );
+    for my $str (@utf8_strings) {
+        utf8::upgrade($str);
+        is XString::perlstring($str), B::perlstring($str),
+            "perlstring UTF-8 string: " . B::perlstring($str);
+    }
+}
+
 # Verify Latin-1 vs UTF-8 code paths produce distinct escape styles
 # Latin-1 (non-upgraded) should use octal escapes (\NNN)
 # UTF-8 (upgraded) should use hex escapes (\x{XX})
