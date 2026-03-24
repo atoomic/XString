@@ -46,6 +46,10 @@ Similar to B::perlstring;
 Returns a double-quote-surrounded escaped version of STR which can
 be used as a string in Perl source code.
 
+# AI POLICY
+
+This project uses AI tools to assist development. Humans review and approve every change before it is merged. See [AI\_POLICY.md](AI_POLICY.md) for details.
+
 # AUTHOR
 
 Nicolas R <atoomic@cpan.org>
