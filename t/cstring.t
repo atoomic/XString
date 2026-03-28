@@ -108,4 +108,21 @@ my @strings = (
     }
 }
 
+# Supplementary plane characters (U+10000+) — 4-byte UTF-8
+{
+    my @astral_strings = (
+        "\x{10000}",                          # Linear B Syllable B008 A
+        "\x{1F600}",                          # Grinning face emoji
+        "\x{1F4A9}",                          # Pile of poo emoji
+        "hello \x{1F310} world",              # Globe with meridians
+        "\x{10000}\x{10001}\x{10002}",        # Consecutive supplementary chars
+        "abc\x{1D11E}def",                    # Musical symbol G clef in ASCII
+    );
+    for my $str (@astral_strings) {
+        utf8::upgrade($str);
+        is XString::cstring($str), B::cstring($str),
+            "cstring astral: " . B::cstring($str);
+    }
+}
+
 done_testing();

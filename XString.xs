@@ -102,6 +102,8 @@ cstring(pTHX_ SV *sv, bool perlstyle)
 
 MODULE = XString       PACKAGE = XString
 
+PROTOTYPES: DISABLE
+
 void
 cstring(sv)
   SV *  sv
