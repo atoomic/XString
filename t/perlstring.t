@@ -137,4 +137,25 @@ for my $do_utf8 (""," utf8") {
         "Latin-1 and UTF-8 escapes differ for chr($cp)");
 }
 
+# Supplementary plane characters (U+10000+) — 4-byte UTF-8, round-trip + B comparison
+{
+    my @astral_strings = (
+        "\x{10000}",                          # Linear B Syllable B008 A
+        "\x{1F600}",                          # Grinning face emoji
+        "\x{1F4A9}",                          # Pile of poo emoji
+        "hello \x{1F310} world",              # Globe with meridians
+        "\x{10000}\x{10001}\x{10002}",        # Consecutive supplementary chars
+        "abc\x{1D11E}def",                    # Musical symbol G clef in ASCII
+    );
+    for my $str (@astral_strings) {
+        utf8::upgrade($str);
+        my $escaped = XString::perlstring($str);
+        my $evalled = eval $escaped;
+        is $evalled, $str,
+            "perlstring astral round-trip: $escaped";
+        is $escaped, B::perlstring($str),
+            "perlstring astral vs B: " . B::perlstring($str);
+    }
+}
+
 done_testing();
