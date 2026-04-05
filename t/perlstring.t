@@ -75,6 +75,7 @@ for my $do_utf8 (""," utf8") {
         qq[beep\007],
         qq[\t\r\n mixed whitespace],
         qq[\a\b\f special controls],
+        qq[\v vertical tab],
     );
     foreach my $str (@strings) {
         is XString::perlstring($str), B::perlstring($str),
@@ -97,6 +98,23 @@ for my $do_utf8 (""," utf8") {
         is XString::perlstring($str), B::perlstring($str),
             "perlstring UTF-8 string: " . B::perlstring($str);
     }
+}
+
+# Verify \v behavioral divergence: cstring() emits \v, perlstring() uses octal \013
+# This is intentional — \v is a C escape, not a Perl escape
+{
+    my $vt = chr(11); # vertical tab
+
+    my $ps = XString::perlstring($vt);
+    my $cs = XString::cstring($vt);
+
+    like($ps, qr/\\013/, "perlstring: vertical tab uses octal escape (\\013)");
+    like($cs, qr/\\v/,   "cstring: vertical tab uses named escape (\\v)");
+    isnt($ps, $cs, "perlstring and cstring differ for vertical tab");
+
+    # Both must match B
+    is($ps, B::perlstring($vt), "perlstring: vertical tab matches B::perlstring");
+    is($cs, B::cstring($vt),    "cstring: vertical tab matches B::cstring");
 }
 
 # Verify Latin-1 vs UTF-8 code paths produce distinct escape styles
