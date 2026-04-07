@@ -58,13 +58,21 @@ for my $thr (@results) {
         or diag explain $bad;
 }
 
-# Also test UTF-8 strings across threads
+# Also test UTF-8 strings across threads — spread across Unicode planes
+# Each thread tests a 64-codepoint slice from a different plane
+my @utf8_bases = (
+    0x0100,   # Latin Extended-A (2-byte UTF-8)
+    0x0900,   # Devanagari (3-byte UTF-8)
+    0x4E00,   # CJK Unified Ideographs (3-byte UTF-8)
+    0x1F600,  # Emoticons (4-byte UTF-8, astral plane)
+);
+
 my @utf8_results;
 for my $tid ( 0 .. $NUM_THREADS - 1 ) {
     push @utf8_results, threads->create(
         sub {
             my $id    = shift;
-            my $start = 256 + $id * 64;
+            my $start = $utf8_bases[$id];
             my $end   = $start + 63;
             my @bad;
             for my $cp ( $start .. $end ) {
@@ -74,6 +82,11 @@ for my $tid ( 0 .. $NUM_THREADS - 1 ) {
                 my $b_p  = B::perlstring($char);
                 push @bad, "perlstring utf8($cp): got=$xs_p exp=$b_p"
                     if $xs_p ne $b_p;
+
+                my $xs_c = XString::cstring($char);
+                my $b_c  = B::cstring($char);
+                push @bad, "cstring utf8($cp): got=$xs_c exp=$b_c"
+                    if $xs_c ne $b_c;
             }
             return \@bad;
         },
@@ -83,7 +96,7 @@ for my $tid ( 0 .. $NUM_THREADS - 1 ) {
 
 for my $thr (@utf8_results) {
     my $bad = $thr->join();
-    is( scalar @$bad, 0, "thread produced correct UTF-8 results" )
+    is( scalar @$bad, 0, "thread produced correct multi-plane UTF-8 results" )
         or diag explain $bad;
 }
 
