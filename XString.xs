@@ -53,7 +53,6 @@ cstring(pTHX_ SV *sv, bool perlstyle)
     }
     else
     {
-  /* XXX Optimise? */
   STRLEN len;
   const char *s = SvPV(sv, len);
   for (; len; len--, s++)
@@ -93,7 +92,7 @@ cstring(pTHX_ SV *sv, bool perlstyle)
     const unsigned char c = (unsigned char) *s;
     Perl_sv_catpvf(aTHX_ sstr, "\\%03o", c);
       }
-      /* XXX Add line breaks if string is long */
+      /* No line breaks for long strings — matches B::cstring behavior */
   }
     }
     sv_catpvs(sstr, "\"");
