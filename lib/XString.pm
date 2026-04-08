@@ -18,7 +18,7 @@ BEGIN {
 
 =begin markdown
 
-[![](https://github.com/atoomic/XString/workflows/linux/badge.svg)](https://github.com/atoomic/XString/actions) [![](https://github.com/atoomic/XString/workflows/macos/badge.svg)](https://github.com/atoomic/XString/actions) [![](https://github.com/atoomic/XString/workflows/windows/badge.svg)](https://github.com/atoomic/XString/actions)
+[![CI](https://github.com/atoomic/XString/actions/workflows/ci.yml/badge.svg)](https://github.com/atoomic/XString/actions/workflows/ci.yml)
 
 =end markdown
 
