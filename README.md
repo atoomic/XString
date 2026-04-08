@@ -28,7 +28,6 @@ done_testing;
 # DESCRIPTION
 
 XString provides the [B](https://metacpan.org/pod/B) string helpers in one isolated package.
-Right now only [cstring](https://metacpan.org/pod/cstring) and [perlstring](https://metacpan.org/pod/perlstring) are available.
 
 [![](https://github.com/atoomic/XString/workflows/linux/badge.svg)](https://github.com/atoomic/XString/actions) [![](https://github.com/atoomic/XString/workflows/macos/badge.svg)](https://github.com/atoomic/XString/actions) [![](https://github.com/atoomic/XString/workflows/windows/badge.svg)](https://github.com/atoomic/XString/actions)
 
@@ -45,6 +44,12 @@ be used as a string in C source code.
 Similar to B::perlstring;
 Returns a double-quote-surrounded escaped version of STR which can
 be used as a string in Perl source code.
+
+## cchar(STR)
+
+Similar to B::cchar;
+Returns a single-quote-surrounded escaped version of the first
+character of STR which can be used as a character in C source code.
 
 # AI POLICY
 

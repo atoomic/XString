@@ -29,7 +29,6 @@ BEGIN {
 =head1 DESCRIPTION
 
 XString provides the L<B> string helpers in one isolated package.
-Right now only L<cstring> and L<perlstring> are available.
 
 =head1 FUNCTIONS
 
@@ -44,6 +43,12 @@ be used as a string in C source code.
 Similar to B::perlstring;
 Returns a double-quote-surrounded escaped version of STR which can
 be used as a string in Perl source code.
+
+=head2 cchar(STR)
+
+Similar to B::cchar;
+Returns a single-quote-surrounded escaped version of the first
+character of STR which can be used as a character in C source code.
 
 =cut
 
