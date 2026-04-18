@@ -30,7 +30,7 @@ done_testing;
 XString provides the [B](https://metacpan.org/pod/B) string helpers in one isolated package.
 Right now only [cstring](https://metacpan.org/pod/cstring) and [perlstring](https://metacpan.org/pod/perlstring) are available.
 
-[![](https://github.com/atoomic/XString/workflows/linux/badge.svg)](https://github.com/atoomic/XString/actions) [![](https://github.com/atoomic/XString/workflows/macos/badge.svg)](https://github.com/atoomic/XString/actions) [![](https://github.com/atoomic/XString/workflows/windows/badge.svg)](https://github.com/atoomic/XString/actions)
+[![CI](https://github.com/atoomic/XString/actions/workflows/ci.yml/badge.svg)](https://github.com/atoomic/XString/actions/workflows/ci.yml)
 
 # FUNCTIONS
 
