@@ -100,6 +100,41 @@ cstring(pTHX_ SV *sv, bool perlstyle)
     return sstr;
 }
 
+/* stolen from B::cchar */
+static SV *
+cchar(pTHX_ SV *sv)
+{
+    SV *sstr = newSVpvs_flags("'", SVs_TEMP);
+    const char *s = SvPV_nolen(sv);
+    /* Don't want promotion of a signed -1 char in sprintf args */
+    const unsigned char c = (unsigned char) *s;
+
+    if (c == '\'')
+  sv_catpvs(sstr, "\\'");
+    else if (c == '\\')
+  sv_catpvs(sstr, "\\\\");
+    else if (isPRINT(c))
+  sv_catpvn(sstr, s, 1);
+    else if (c == '\n')
+  sv_catpvs(sstr, "\\n");
+    else if (c == '\r')
+  sv_catpvs(sstr, "\\r");
+    else if (c == '\t')
+  sv_catpvs(sstr, "\\t");
+    else if (c == '\a')
+  sv_catpvs(sstr, "\\a");
+    else if (c == '\b')
+  sv_catpvs(sstr, "\\b");
+    else if (c == '\f')
+  sv_catpvs(sstr, "\\f");
+    else if (c == '\v')
+  sv_catpvs(sstr, "\\v");
+    else
+  Perl_sv_catpvf(aTHX_ sstr, "\\%03o", c);
+    sv_catpvs(sstr, "'");
+    return sstr;
+}
+
 MODULE = XString       PACKAGE = XString
 
 PROTOTYPES: DISABLE
@@ -109,5 +144,6 @@ cstring(sv)
   SV *  sv
     ALIAS:
   perlstring = 1
+  cchar = 2
     PPCODE:
-  PUSHs( cstring(aTHX_ sv, (bool)ix) );
+  PUSHs(ix == 2 ? cchar(aTHX_ sv) : cstring(aTHX_ sv, (bool)ix));
