@@ -31,6 +31,40 @@ for my $do_utf8 (""," utf8") {
     }
 }
 
+# Round-trip supplementary plane codepoints (exercise sv_uni_display with 3/4-byte UTF-8)
+{
+    my @ranges = (
+        [0x0400, 0x047F],   # Cyrillic
+        [0x0900, 0x097F],   # Devanagari
+        [0x1F00, 0x1F4F],   # Greek Extended
+        [0x2600, 0x26FF],   # Miscellaneous Symbols
+        [0x4E00, 0x4E7F],   # CJK Unified Ideographs (first 128)
+        [0x1F600, 0x1F64F], # Emoticons (astral plane)
+        [0x10000, 0x1003F], # Linear B Syllabary (astral plane)
+        [0x1D100, 0x1D13F], # Musical Symbols (astral plane)
+    );
+    for my $range (@ranges) {
+        my ($lo, $hi) = @$range;
+        my @bad;
+        for my $cp ( $lo .. $hi ) {
+            my $char = chr($cp);
+            utf8::upgrade($char);
+            my $escaped = XString::perlstring($char);
+            my $evalled = eval $escaped;
+            push @bad, [ $cp, $evalled, $char, $escaped ] if $evalled ne $char;
+        }
+        is(0+@bad, 0,
+            sprintf("supplementary round-trip U+%04X..U+%04X", $lo, $hi));
+        if (@bad) {
+            foreach my $tuple (@bad) {
+                my ( $cp, $evalled, $char, $escaped ) = @$tuple;
+                is($evalled, $char,
+                    sprintf("round-trip U+%04X ($escaped)", $cp));
+            }
+        }
+    }
+}
+
 # Verify XString::perlstring matches B::perlstring for all codepoints
 for my $do_utf8 (""," utf8") {
     my $max = $do_utf8 ? 1024 : 255;
@@ -51,6 +85,42 @@ for my $do_utf8 (""," utf8") {
             my ( $cp, $xs_result, $b_result ) = @$tuple;
             is($xs_result, $b_result,
                 "XString::perlstring vs B::perlstring for$do_utf8 codepoint $cp");
+        }
+    }
+}
+
+# B::perlstring comparison for supplementary planes
+{
+    my @ranges = (
+        [0x0400, 0x047F],   # Cyrillic
+        [0x0900, 0x097F],   # Devanagari
+        [0x1F00, 0x1F4F],   # Greek Extended
+        [0x2600, 0x26FF],   # Miscellaneous Symbols
+        [0x4E00, 0x4E7F],   # CJK Unified Ideographs (first 128)
+        [0x1F600, 0x1F64F], # Emoticons (astral plane)
+        [0x10000, 0x1003F], # Linear B Syllabary (astral plane)
+        [0x1D100, 0x1D13F], # Musical Symbols (astral plane)
+    );
+    for my $range (@ranges) {
+        my ($lo, $hi) = @$range;
+        my @mismatches;
+        for my $cp ( $lo .. $hi ) {
+            my $char = chr($cp);
+            utf8::upgrade($char);
+            my $xs_result = XString::perlstring($char);
+            my $b_result  = B::perlstring($char);
+            if ($xs_result ne $b_result) {
+                push @mismatches, [ $cp, $xs_result, $b_result ];
+            }
+        }
+        is(0+@mismatches, 0,
+            sprintf("XString::perlstring matches B::perlstring U+%04X..U+%04X", $lo, $hi));
+        if (@mismatches) {
+            foreach my $tuple (@mismatches) {
+                my ( $cp, $xs_result, $b_result ) = @$tuple;
+                is($xs_result, $b_result,
+                    sprintf("perlstring vs B U+%04X", $cp));
+            }
         }
     }
 }
