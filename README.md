@@ -14,15 +14,19 @@ version 0.006
 use strict;
 use warnings;
 
-use Test::More;
-
 use XString;
-use B;
 
-is XString::cstring( q[a'string"with quotes] ), B::cstring( q[a'string"with quotes] ), q["a'string\"with quotes"];
-is XString::perlstring( q[a'string"with quotes] ), B::perlstring( q[a'string"with quotes] ), q["a'string\"with quotes"];
+# C-style string escaping (for embedding in C source code)
+my $c = XString::cstring("Hello\tWorld\n");
+print "cstring:    $c\n";    # "Hello\tWorld\n"
 
-done_testing;
+# Perl-style string escaping (for embedding in Perl source code)
+my $p = XString::perlstring("Hello\tWorld\n");
+print "perlstring: $p\n";    # "Hello\tWorld\n"
+
+# Both handle special characters, control codes, and Unicode
+my $special = XString::perlstring("Price: \$9.99 \@discount");
+print "escaped:    $special\n";    # "Price: \$9.99 \@discount"
 ```
 
 # DESCRIPTION
