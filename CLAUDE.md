@@ -53,3 +53,30 @@ void cstring(sv)
 - Dist::Zilla for releases; `dist.ini` uses `[Git::NextVersion]` (versions from git tags: `v0.001`, etc.)
 - MIN_PERL_VERSION is 5.008
 - CI: GitHub Actions (`.github/workflows/ci.yml`) — dynamic Perl version matrix via `perl-actions/perl-versions@v2`
+
+## Upstream sync (B.xs)
+
+`XString.xs` is a verbatim port of the `cstring()` / `cchar()` C functions from
+core Perl's `ext/B/B.xs`. B is the source of truth — when B fixes a bug or
+adds a case, XString should follow.
+
+Two mechanisms keep us honest:
+
+1. **Test-time guard.** Every test in `t/` compares XString output against the
+   locally installed `B::cstring` / `B::perlstring` / `B::cchar`. Any drift
+   between XString and the user's Perl is caught here.
+2. **Source-level audit.** Periodically (on Perl major releases, or when a
+   B-related issue is reported), diff XString.xs against current blead:
+
+   ```bash
+   curl -sL https://raw.githubusercontent.com/Perl/perl5/blead/ext/B/B.xs \
+     -o /tmp/upstream-B.xs
+   # cstring/cchar live around lines 250-364 in upstream B.xs;
+   # extract and compare against XString.xs (whitespace-only diffs are expected).
+   diff <(sed -n '249,364p' /tmp/upstream-B.xs) <(sed -n '20,101p' XString.xs)
+   ```
+
+   Last verified in sync: **2026-04-16** (Perl/perl5 blead, modulo whitespace).
+
+If a real divergence appears, port the upstream change to `XString.xs` and
+update this date.
