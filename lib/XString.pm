@@ -3,7 +3,11 @@ package XString;
 use strict;
 use warnings;
 
+use Exporter 'import';
+
 # ABSTRACT: Isolated String helpers from B
+
+our @EXPORT_OK = qw(cstring perlstring);
 
 BEGIN {
 
@@ -30,6 +34,15 @@ BEGIN {
 
 XString provides the L<B> string helpers in one isolated package.
 Right now only L<cstring> and L<perlstring> are available.
+
+Both functions can be imported individually:
+
+    use XString qw(cstring perlstring);
+
+or called fully qualified:
+
+    use XString;
+    XString::cstring($str);
 
 =head1 FUNCTIONS
 
