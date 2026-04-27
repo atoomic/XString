@@ -2,6 +2,31 @@ Revision history for XString
 
 {{$NEXT}}
 
+  [Improvements]
+  - Update ppport.h from 3.62 to 3.73 (Devel::PPPort)
+  - Add PROTOTYPES: DISABLE to suppress xsubpp warnings on Perl 5.36+
+
+  [Testing]
+  - Add trigraph test coverage for all 9 C trigraph sequences
+  - Add B::perlstring output comparison to perlstring.t
+  - Add UTF-8 test cases for cstring (supplementary planes, multi-byte)
+  - Fix perlstring test to properly exercise Latin-1 vs UTF-8 code paths
+  - Add vertical tab divergence tests (cstring vs perlstring)
+  - Add edge case tests: SV type diversity, boundary conditions, multi-char strings
+  - Add thread-safety test (ithreads, skipped when unsupported)
+  - Modernize test pragmas and add descriptions to all is() calls
+
+  [CI / Build]
+  - Migrate from Travis CI to GitHub Actions
+  - Dynamic Perl version matrix via perl-actions/perl-versions (5.8+)
+  - Add macOS and Windows CI jobs
+  - Enable AUTHOR_TESTING and RELEASE_TESTING on all platforms
+  - Fix broken CI badge URLs in POD
+
+  [Documentation]
+  - Add CLAUDE.md with developer guide and upstream B.xs sync procedure
+  - Add AI policy document (CPAN-AI-POLICY.md)
+
 0.005     2020-10-20 11:56:46-06:00 America/Denver
 
 Add compatibility with Perl 5.8
